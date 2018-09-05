@@ -1,0 +1,89 @@
+/*尺取*/
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <climits>
+#include <complex>
+#include <fstream>
+#include <cassert>
+#include <cstdio>
+#include <bitset>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <ctime>
+#include <set>
+#include <map>
+#include <cmath>
+using namespace std;
+#define INF 0x3f3f3f3f
+#define maxn 200000+50
+#define maxm 30000
+#define ll long long
+#define mod 1000000000+7
+#define mian main
+#define mem(a,b) memset(a,b,sizeof a)
+#ifndef ONLINE_JUDGE
+   #define dbg(x) cout<<#x<<"="<<x<<endl;
+#else 
+   #define dbg(x) 
+#endif
+inline int read()
+{
+	int x = 0, f = 1;
+	char ch = getchar();
+	while (ch<'0' || ch>'9')
+	{
+		if (ch == '-') f = -1;
+		ch = getchar();
+	}
+	while (ch >= '0'&&ch <= '9')
+	{
+		x = 10 * x + ch - '0';
+		ch = getchar();
+	}
+	return x*f;
+}
+struct Ata {
+	int t;
+	ll d;
+}ata[maxn];
+int cmp(Ata x, Ata y)
+{
+	return x.t<y.t;
+}
+int n, q;
+int main()
+{
+	n = read(); q = read();
+    ll aaa=0;
+	for (int i = 1; i <= n; ++i)
+	{
+		ata[i].t = read();
+		scanf("%lld",&ata[i].d);
+        aaa+=ata[i].d;
+	}
+	sort(ata + 1, ata + n + 1, cmp);
+	while (q--)
+	{
+		int k = read();
+		ll dmax = 0;
+		int l = 1, r = 1;
+        ll hh = 0;
+		while (1)
+		{
+			if(l>n) break;
+			while (r<=n&&ata[r].t <= ata[l].t + k - 1)
+			{
+				hh+=ata[r].d;r++;
+			}
+            //dbg(hh);
+			dmax = max(dmax, hh);
+            hh-=ata[l].d;
+			l++;
+		}
+		printf("%lld\n", aaa-dmax);
+	}
+}
