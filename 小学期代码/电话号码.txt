@@ -1,0 +1,117 @@
+/*转换成整数存储，数组大小re。。难受*/
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <climits>
+#include <complex>
+#include <fstream>
+#include <cassert>
+#include <cstdio>
+#include <bitset>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <ctime>
+#include <set>
+#include <map>
+#include <cmath>
+using namespace std;
+#define INF 0x3f3f3f3f
+#define mem(a, b) memset(a, b, sizeof a)
+string s;
+char s1[25];
+int num1[10000000+100];
+int dui(char x)
+{
+    int hh;
+    if (x >= 'A' && x <= 'C')
+        hh = 2;
+    if (x >= 'D' && x <= 'F')
+        hh = 3;
+    if (x >= 'G' && x <= 'I')
+        hh = 4;
+    if (x >= 'J' && x <= 'L')
+        hh = 5;
+    if (x >= 'M' && x <= 'O')
+        hh = 6;
+    if (x == 'P' || x == 'R' || x == 'S')
+        hh = 7;
+    if (x == 'T' || x == 'U' || x == 'V')
+        hh = 8;
+    if (x == 'W' || x == 'X' || x == 'Y')
+        hh = 9;
+    return hh;
+}
+int main()
+{
+    int numerror = 0, numcou = 0;
+    int num = 0;
+    puts("Error:");
+    mem(num1, 0);
+    while (~scanf("%s",s1))
+    {
+        char ch[25];
+        int l = strlen(s1);
+        int cc = 0;
+        for (int i = 0; i < l; ++i)
+            if (s1[i] != '-')
+                ch[cc++] = s1[i];
+        ch[cc] = '\0';
+        s = ch;
+        int flag = 1;
+        l = s.length();
+        for (int i = 0; i < l; ++i)
+        {
+            if (s[i] == 'Q' || s[i] == 'Z')
+            {
+                printf("%s\n",s1);
+                flag = 0;
+                numerror++;
+                break;
+            }
+            else if (s[i] >= 'A' && s[i] < 'Z')
+            {
+                s[i] = dui(s[i]) + '0';
+            }
+        }
+        if (!flag)
+            continue;
+        if (s[0] != '3' && s[0] != '6')
+        {
+            printf("%s\n",s1);
+            numerror++;
+        }
+        else
+        {
+            numcou++;
+            for (int j = 0; j < l; ++j)
+            {
+                num1[numcou] = s[j] - '0' + num1[numcou] * 10;
+            }
+        }
+    }
+    if (!numerror)
+        puts("Not found.");
+    printf("\n");
+    puts("Duplication:");
+    int sum = 0;
+    sort(num1 + 1, num1 + numcou + 1);
+    for (int i = 1; i <= numcou; ++i)
+    {
+        int cnt = 1;
+        while (num1[i] == num1[i + 1] && i + 1 <= numcou)
+        {
+            i++;
+            cnt++;
+            sum = 1;
+        }
+        if (cnt >= 2)
+        {
+            printf("%03d-%04d %d\n", num1[i] / 10000, num1[i] % 10000, cnt);
+        }
+    }
+    if (!sum)
+        puts("Not found.");
+}
