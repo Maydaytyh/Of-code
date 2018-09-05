@@ -1,0 +1,100 @@
+
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <climits>
+#include <complex>
+#include <fstream>
+#include <cassert>
+#include <cstdio>
+#include <bitset>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <ctime>
+#include <set>
+#include <map>
+#include <cmath>
+using namespace std;
+#define INF 0x3f3f3f3f
+#define maxn 200000+50
+#define maxm 30000
+#define ll long long
+#define mod 1000000000+7
+#define mian main
+#define mem(a,b) memset(a,b,sizeof a)
+inline ll read()
+{
+    ll x=0,f=1;
+    char ch=getchar();
+    while(ch<'0'||ch>'9')
+    {
+        if(ch=='-') f=-1;
+        ch=getchar();
+    }
+    while(ch>='0'&&ch<='9')
+    {
+        x=10*x+ch-'0';
+        ch=getchar();
+    }
+    return x*f;
+}
+ll a[4];
+struct Tri{
+    ll a,b,c,id;
+}tri[100000+50];
+int cmp(Tri a,Tri b){
+    if(a.c==b.c){
+        if(a.b==b.b) return a.a>b.a;
+        else return a.b>b.b;
+    }
+    else return a.c>b.c;
+}
+#ifndef ONLINE_JUDGE
+   #define dbg(x) cout<<#x<<"="<<x<<endl;
+#else 
+   #define dbg(x) 
+#endif
+int main()
+{
+   ll n=read();
+   for(ll i=1;i<=n;++i)
+   {
+       for(ll j=1;j<=3;++j)
+        a[j]=read();
+        sort(a+1,a+4);
+        tri[i].a=a[1];tri[i].b=a[2];tri[i].c=a[3];
+        tri[i].id=i;
+   }
+   sort(tri+1,tri+n+1,cmp);
+   ll maxx1=0,maxx=0;
+   ll k,hh1=-1,hh2=-1;
+   for(ll i=1;i<=n;++i) {
+      // dbg(tri[i].a);
+      // dbg(tri[i].id);
+       if(tri[i].a>maxx) {
+           k=1;
+           maxx=tri[i].a;
+           hh1=tri[i].id;
+       }
+       //dbg(hh1);
+   }
+   for(ll i=1;i<n;++i)
+   {
+       if(tri[i].b==tri[i+1].b&&tri[i].c==tri[i+1].c) 
+       {
+           ll hh=tri[i].a+tri[i+1].a;
+           ll minn=min((min(tri[i].b,tri[i].c)),hh);
+           if(minn>maxx)
+          { k=2;maxx=hh;hh1=tri[i].id,hh2=tri[i+1].id;}
+       }
+   }
+   cout<<k<<endl;
+   if(k==1){
+
+       printf("%lld\n",hh1);
+   }
+   else printf("%lld %lld\n",hh1,hh2);
+}
