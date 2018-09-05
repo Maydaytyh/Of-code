@@ -1,0 +1,90 @@
+/*扫一遍每个讨论即可，注意别漏情况，最坑的是n=1的时候，直接输出即可。以后做题wa的时候多想想样例。有利于思维提高*/
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <climits>
+#include <complex>
+#include <fstream>
+#include <cassert>
+#include <cstdio>
+#include <bitset>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <ctime>
+#include <set>
+#include <map>
+#include <cmath>
+using namespace std;
+#define INF 0x3f3f3f3f
+#define maxn 200000+50
+#define maxm 30000
+#define ll long long
+#define mod 1000000000+7
+#define mian main
+#define mem(a,b) memset(a,b,sizeof a)
+inline int read()
+{
+    int x=0,f=1;
+    char ch=getchar();
+    while(ch<'0'||ch>'9')
+    {
+        if(ch=='-') f=-1;
+        ch=getchar();
+    }
+    while(ch>='0'&&ch<='9')
+    {
+        x=10*x+ch-'0';
+        ch=getchar();
+    }
+    return x*f;
+}
+struct Duan{
+    int st,end,id;
+}duan[maxn];    
+int cmp(Duan x,Duan y)
+{
+    if(x.st==y.st) return x.end>y.end;
+    return x.st<y.st;
+}
+int main()
+{
+    int n=read();
+    if(n==1){ puts("-1");return 0;}
+    for(int i=1;i<=n;++i)
+    {
+        duan[i].id=i;
+        duan[i].st=read();duan[i].end=read();
+    }
+    sort(duan+1,duan+n+1,cmp);
+    int flag=0; 
+    for(int i=2;i<n;++i)
+    {
+       if(duan[i].end<=duan[i-1].end)
+	   {
+		   flag=1;
+		   printf("%d\n",duan[i].id);
+		   break;
+	   }
+	   else
+	   {
+		   if(duan[i+1].st<=duan[i-1].end+1)
+           {
+               if(duan[i].st<=duan[i-1].end&&duan[i].end>=duan[i+1].st&&duan[i].end<=duan[i+1].end)
+               {
+                   printf("%d\n",duan[i].id);flag=1;break;
+               }
+           }
+	   }
+    }
+    if(duan[n].end<=duan[n-1].end)
+    {
+        if(!flag) {
+            printf("%d\n",duan[n].id);flag=1;
+        }
+    }
+    if(!flag) puts("-1");
+	return 0;
+}
