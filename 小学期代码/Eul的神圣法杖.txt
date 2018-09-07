@@ -1,4 +1,5 @@
 /*尺取*/
+显然，使用前缀和是更优的
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
