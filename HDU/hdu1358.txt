@@ -1,0 +1,51 @@
+#include <cstdio>
+#include <iostream>
+#include <string.h>
+#include <string> 
+#include <map>
+#include <queue>
+#include <deque>
+#include <vector>
+#include <set>
+#include <algorithm>
+#include <math.h>
+#include <cmath>
+#include <stack>
+#include <iomanip>
+#define mem0(a) memset(a,0,sizeof(a))
+#define meminf(a) memset(a,0x3f,sizeof(a))
+#define ll long long
+using namespace std;
+int nex[1000005];
+int getn(int n,char c[])
+{
+	int i=0,j=-1;
+	nex[0]=-1;
+	while(i<n)
+	{
+		if(c[i]==c[j]||j==-1)
+		{
+			i++;j++;nex[i]=j;
+		}
+		else j=nex[j];
+	}
+}
+int main()
+{
+	int n,k=1;
+	char c[1000005];
+	int count=1;
+	while(scanf("%d",&n)&&n)
+	{
+       scanf("%s",c);
+	   getn(n,c);
+	   printf("Test case #%d\n",count++);
+	   for(int i=1;i<=n;++i)
+	   {
+		   int temp=i-nex[i];
+		   if(i%temp==0&&i/temp>1) printf("%d %d\n",i,i/temp);
+	   }
+	   printf("\n");
+	}
+	return 0;
+}
